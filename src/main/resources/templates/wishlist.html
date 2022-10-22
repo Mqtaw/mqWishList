@@ -1,0 +1,16 @@
+<html>
+<head><title>Home Page</title></head>
+<body>
+<h1>Thiss is <span th:text="${wishList.name}"> whishList name </span>!</h1>
+
+
+<tr th:each="product: ${wishList.products}">
+    <td th:text="${product}"></td>
+    <br>
+</tr>
+
+
+
+<!--<p>Thet is wishes <span th:text="${wishList.products}">products</span></p>-->
+</body>
+</html>
