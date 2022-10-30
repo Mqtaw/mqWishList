@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 
@@ -19,9 +20,11 @@ public class User {
     @Column(name = "id")
     private int id;
 
+    @NotBlank(message = "Password is mandatory")
     @Column(name = "hashed_password", nullable = false)
     private String password;
 
+    @NotBlank(message = "Name is mandatory")
     @Column(name = "username", nullable = false, unique = true, length = 32)
     private String username;
 

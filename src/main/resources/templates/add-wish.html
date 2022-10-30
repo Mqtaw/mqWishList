@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AddWish</title>
+</head>
+<body>
+<form action="#" th:action="@{/wish-list/wishes}" th:object="${wish}" method="post">
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+    <label for="link">Link</label>
+    <input type="text" th:field="*{link}" id="link" placeholder="Link">
+    <span th:if="${#fields.hasErrors('link')}" th:errors="*{link}"></span>
+
+    <label for="comment">Comment</label>
+    <input type="text" th:field="*{comment}" id="comment" placeholder="Comment">
+    <span th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></span>
+
+<!--    <label for="wishListId">Comment</label>-->
+<!--    <input type="text" th:field="*{wish.wishListId}" id="comment" value="${wishList}">-->
+<!--    &lt;!&ndash;    <span th:if="${#fields.hasErrors('wish.comment')}" th:errors="*{wish.comment}"></span>&ndash;&gt;-->
+
+    <input type="hidden" name="wishListId" id="wishListId" th:value="${wishListId}">
+    <input type="hidden" name="action" id="action" th:value="${action}">
+
+<!--    <label for="wishlist_id">WishlistId</label>-->
+<!--    <input type="hidden" th:field="*{wishlist_id}" id="wishlist_id" value="${wishListId}">-->
+
+    <input type="submit" value="Create">
+</form>
+
+</body>
+</html>

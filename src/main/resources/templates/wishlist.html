@@ -1,13 +1,115 @@
 <html>
-<head><title>Home Page</title></head>
+<head><title>WishListInfo</title></head>
 <body>
-<h1>Thiss is <span th:text="${wishList.name}"> whishList name </span>!</h1>
+<h1>This is <span th:text="${wishList.name}"> whishList name </span>!</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Comment</th>
+            <th>Link</th>
+            <th>Reserve</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="wish: ${wishList.wishes}">
+            <td th:text="${wish.name}"></td>
+            <td th:text="${wish.comment}"></td>
+            <td th:text="${wish.link}"></td>
+            <td>
+                <form th:if="${!wish.isLocked}" th:action="@{/wish-list/wishes/reserve}" method="post">
+                    <input type="hidden" name="wishId" th:value="${wish.id}">
+                    <input type="hidden" name="wishListId" th:value="${wishList.id}">
+                    <button type="submit">reserve</button>
+                </form>
+                <form th:if="${wish.isLocked}" th:action="@{/wish-list/wishes/cancel-reserve}" method="post">
+                    <input type="hidden" name="wishId" th:value="${wish.id}">
+                    <input type="hidden" name="wishListId" th:value="${wishList.id}">
+                    <button type="submit">cancel</button>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/wish-list/wishes/update}" method="post">
+                    <input type="hidden" name="wishId" th:value="${wish.id}">
+                    <input type="hidden" name="wishListId" th:value="${wishList.id}">
+                    <button type="submit">edit</button>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/wish-list/wishes/delete}" method="post">
+                    <input type="hidden" name="wishId" th:value="${wish.id}">
+                    <input type="hidden" name="wishListId" th:value="${wishList.id}">
+                    <button type="submit">delete</button>
+                </form>
+            </td>
+            <br>
+        </tr>
+    </tbody>
+</table>
+<!--<p><a href="/wish-list/add-wish">Add a new wish</a></p>-->
+<form th:action="@{/wish-list/wishes/create}" method="post">
+    <input type="hidden" name="wishListId" id="wishListId" th:value="${wishList.id}">
+    <button type="submit">add wish</button>
+</form>
+
+<br>
+
+<!--<form action="#" th:action="@{/wish-list}" method="post">-->
+<!--    <label for="name">Name</label>-->
+<!--    <input type="text" th:field="*{wish.name}" id="name" placeholder="Name">-->
+<!--    <span th:if="${#fields.hasErrors('wish.name')}" th:errors="*{wish.name}"></span>-->
+
+<!--    <label for="link">Link</label>-->
+<!--    <input type="text" th:field="*{wish.link}" id="link" placeholder="Link">-->
+<!--    <span th:if="${#fields.hasErrors('wish.link')}" th:errors="*{wish.link}"></span>-->
+
+<!--    <label for="comment">Comment</label>-->
+<!--    <input type="text" th:field="*{wish.comment}" id="comment" placeholder="Comment">-->
+<!--    <span th:if="${#fields.hasErrors('wish.comment')}" th:errors="*{wish.comment}"></span>-->
+
+<!--    &lt;!&ndash;    <label for="wishListId">Comment</label>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <input type="text" th:field="*{wish.wishListId}" id="comment" value="${wishList}">&ndash;&gt;-->
+<!--    &lt;!&ndash;    &lt;!&ndash;    <span th:if="${#fields.hasErrors('wish.comment')}" th:errors="*{wish.comment}"></span>&ndash;&gt;&ndash;&gt;-->
+
+<!--    <input type="hidden" name="wishListId" id="wishListId" th:value="${wishListId}">-->
+
+<!--    &lt;!&ndash;    <label for="wishlist_id">WishlistId</label>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <input type="hidden" th:field="*{wishlist_id}" id="wishlist_id" value="${wishListId}">&ndash;&gt;-->
+
+<!--    <input type="submit" value="Add Wish">-->
+<!--</form>-->
 
 
-<tr th:each="product: ${wishList.products}">
-    <td th:text="${product}"></td>
-    <br>
-</tr>
+
+<!--    <c:forEach var="emp" items="${allEmps}">-->
+
+<!--        <c:url var="updateButton" value="/updateInfo">-->
+<!--            <c:param name="empId" value="${emp.id}"/>-->
+<!--        </c:url>-->
+
+<!--        <c:url var="deleteButton" value="/deleteEmployee">-->
+<!--            <c:param name="empId" value="${emp.id}"/>-->
+<!--        </c:url>-->
+
+<!--        <tr>-->
+<!--            <td>${emp.name}</td>-->
+<!--            <td>${emp.surname}</td>-->
+<!--            <td>${emp.department}</td>-->
+<!--            <td>${emp.salary}</td>-->
+<!--            <td>-->
+<!--                <input type="button" value="Update"-->
+<!--                       onClick="window.location.href = '${updateButton}'"/>-->
+<!--                <input type="button" value="Delete"-->
+<!--                       onClick="window.location.href = '${deleteButton}'"/>-->
+<!--            </td>-->
+<!--        </tr>-->
+
+<!--    </c:forEach>-->
+
+
 
 
 

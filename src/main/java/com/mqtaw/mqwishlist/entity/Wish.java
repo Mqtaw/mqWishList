@@ -1,16 +1,15 @@
 package com.mqtaw.mqwishlist.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="products")
+@Table(name="wishes")
 @Getter
 @Setter
-public class Product {
+public class Wish {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +32,18 @@ public class Product {
     @JoinColumn(name="wishlist_id", nullable = false)
     private WishList wishList;
 
+    public boolean getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(boolean locked) {
+        this.isLocked = locked;
+    }
+
+
     @Override
     public String toString() {
-        return "Product{" +
+        return "Wish{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", link='" + link + '\'' +

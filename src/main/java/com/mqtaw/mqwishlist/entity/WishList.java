@@ -1,11 +1,10 @@
 package com.mqtaw.mqwishlist.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name="wishlists")
@@ -26,15 +25,15 @@ public class WishList {
     private User owner;
 
     @OneToMany(mappedBy = "wishList", fetch = FetchType.EAGER)
-    private Set<Product> products;
+    private List<Wish> wishes;
 
-    public Set<Product> getProducts() {
-        return products;
+    public List<Wish> getWishes() {
+        return wishes;
     }
 
-    public void addProductToWishList(Product product) {
-        products.add(product);
-        product.setWishList(this);
+    public void addWishToWishList(Wish wish) {
+        wishes.add(wish);
+        wish.setWishList(this);
     }
 
     @Override

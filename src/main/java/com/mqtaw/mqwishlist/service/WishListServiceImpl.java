@@ -1,6 +1,5 @@
 package com.mqtaw.mqwishlist.service;
 
-import com.mqtaw.mqwishlist.entity.Product;
 import com.mqtaw.mqwishlist.entity.WishList;
 import com.mqtaw.mqwishlist.repository.WishListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
