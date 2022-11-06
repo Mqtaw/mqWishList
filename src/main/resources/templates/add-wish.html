@@ -5,6 +5,7 @@
     <title>AddWish</title>
 </head>
 <body>
+<h2>Fill in the fields</h2>
 <form action="#" th:action="@{/wish-list/wishes}" th:object="${wish}" method="post">
     <label for="name">Name</label>
     <input type="text" th:field="*{name}" id="name" placeholder="Name">
@@ -28,6 +29,7 @@
 <!--    <label for="wishlist_id">WishlistId</label>-->
 <!--    <input type="hidden" th:field="*{wishlist_id}" id="wishlist_id" value="${wishListId}">-->
 
+    <br>
     <input type="submit" value="Create">
 </form>
 

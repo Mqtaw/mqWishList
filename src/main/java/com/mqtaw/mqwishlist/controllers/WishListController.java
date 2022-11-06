@@ -1,7 +1,9 @@
 package com.mqtaw.mqwishlist.controllers;
 
+import com.mqtaw.mqwishlist.entity.User;
 import com.mqtaw.mqwishlist.entity.Wish;
 import com.mqtaw.mqwishlist.entity.WishList;
+import com.mqtaw.mqwishlist.service.UserService;
 import com.mqtaw.mqwishlist.service.WishService;
 import com.mqtaw.mqwishlist.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-public class MainController {
+@RequestMapping("/wish-list")
+public class WishListController {
 
     @Value("${spring.application.name}")
     String appName;
@@ -25,34 +28,52 @@ public class MainController {
     @Autowired
     private WishService wishService;
 
+    @Autowired
+    private UserService userService;
 
-    @GetMapping("/")
-    public String homePage(Model model) {
-        model.addAttribute("appName", appName);
-        return "home";
+    @PostMapping(value = {"/create"})
+    public String createNewWishList(@ModelAttribute("userId") int userId, Model model) {
+        WishList wishList = new WishList();
+//        User user = userService.findUserById(userId);
+//        wishList.setOwner(user);
+        model.addAttribute("wishList", wishList);
+        model.addAttribute("userId", userId);
+        return "add-wishList";
     }
 
-    @PostMapping("/wish-list/wishes")
+    @PostMapping(value = {"/", ""})
+    public String saveNewWishList(@ModelAttribute("userId") int userId, @Valid WishList wishList, BindingResult result, Model model) {
+        System.out.println(1);
+        System.out.println(wishList);
+        if (result.hasErrors()) {
+            System.out.println(result);
+            return "add-wishList";
+        }
+        System.out.println(1);
+        User user = userService.findUserById(userId);
+        wishList.setOwner(user);
+        wishListService.save(wishList);
+        System.out.println(1);
+        return "redirect:/users/" + wishList.getOwner().getId();
+    }
+
+    @PostMapping("/wishes")
     public String saveWish(@ModelAttribute("wishListId") int wishListId, @ModelAttribute("action") String action, @Valid Wish wish, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "/wish-list/add-wish";
         }
-        System.out.println(1111);
-        System.out.println(action);
-        System.out.println(wish);
         if (action.equals("create")) {
             WishList wishList = wishListService.findWishListById(wishListId);
             wish.setWishList(wishList);
         }
 
         WishList wishList = wishListService.findWishListById(wishListId);
-        wish.setWishList(wishList);
         wishService.save(wish);
         return "redirect:/wish-list/" + wishListId;
     }
 
 
-    @PostMapping("/wish-list/wishes/create")
+    @PostMapping("/wishes/create")
     public String createNewWish(@ModelAttribute("wishListId") int wishListId, Model model) {
         Wish wish = new Wish();
         model.addAttribute("wish", wish);
@@ -61,7 +82,7 @@ public class MainController {
         return "add-wish";
     }
 
-    @PostMapping("/wish-list/wishes/update")
+    @PostMapping("/wishes/update")
     public String updateWish(@ModelAttribute("wishId") int wishId,
                              @ModelAttribute("wishListId") int wishListId,
                              Model model) {
@@ -72,7 +93,7 @@ public class MainController {
         return "update-wish";
     }
 
-    @PostMapping("/wish-list/wishes/reserve")
+    @PostMapping("/wishes/reserve")
     public String reserveWish(@ModelAttribute("wishId") int wishId,
                               @ModelAttribute("wishListId") int wishListId) {
         Wish wish = wishService.findWishById(wishId);
@@ -81,7 +102,7 @@ public class MainController {
         return "redirect:/wish-list/" + wishListId;
     }
 
-    @PostMapping("/wish-list/wishes/cancel-reserve")
+    @PostMapping("/wishes/cancel-reserve")
     public String unReserveWish(@ModelAttribute("wishId") int wishId,
                               @ModelAttribute("wishListId") int wishListId) {
         Wish wish = wishService.findWishById(wishId);
@@ -90,7 +111,7 @@ public class MainController {
         return "redirect:/wish-list/" + wishListId;
     }
 
-    @PostMapping("/wish-list/wishes/delete")
+    @PostMapping("/wishes/delete")
     public String deleteWish(@ModelAttribute("wishId") int wishId,
                              @ModelAttribute("wishListId") int wishListId) {
         wishService.deleteById(wishId);
@@ -98,7 +119,7 @@ public class MainController {
     }
 
 
-    @GetMapping("/wish-list/{wishlistId}")
+    @GetMapping("/{wishlistId}")
     public String wishListPage(@PathVariable int wishlistId, Model model) {
         WishList wishList = wishListService.findWishListById(wishlistId);
         model.addAttribute("wishList", wishList);

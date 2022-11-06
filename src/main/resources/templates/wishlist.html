@@ -1,8 +1,7 @@
 <html>
 <head><title>WishListInfo</title></head>
 <body>
-<h1>This is <span th:text="${wishList.name}"> whishList name </span>!</h1>
-
+<h2>This is <span th:text="${wishList.name}"> whishList name</span>!</h2>
 <table>
     <thead>
         <tr>
@@ -49,70 +48,12 @@
         </tr>
     </tbody>
 </table>
-<!--<p><a href="/wish-list/add-wish">Add a new wish</a></p>-->
+<br>
 <form th:action="@{/wish-list/wishes/create}" method="post">
     <input type="hidden" name="wishListId" id="wishListId" th:value="${wishList.id}">
     <button type="submit">add wish</button>
 </form>
 
 <br>
-
-<!--<form action="#" th:action="@{/wish-list}" method="post">-->
-<!--    <label for="name">Name</label>-->
-<!--    <input type="text" th:field="*{wish.name}" id="name" placeholder="Name">-->
-<!--    <span th:if="${#fields.hasErrors('wish.name')}" th:errors="*{wish.name}"></span>-->
-
-<!--    <label for="link">Link</label>-->
-<!--    <input type="text" th:field="*{wish.link}" id="link" placeholder="Link">-->
-<!--    <span th:if="${#fields.hasErrors('wish.link')}" th:errors="*{wish.link}"></span>-->
-
-<!--    <label for="comment">Comment</label>-->
-<!--    <input type="text" th:field="*{wish.comment}" id="comment" placeholder="Comment">-->
-<!--    <span th:if="${#fields.hasErrors('wish.comment')}" th:errors="*{wish.comment}"></span>-->
-
-<!--    &lt;!&ndash;    <label for="wishListId">Comment</label>&ndash;&gt;-->
-<!--    &lt;!&ndash;    <input type="text" th:field="*{wish.wishListId}" id="comment" value="${wishList}">&ndash;&gt;-->
-<!--    &lt;!&ndash;    &lt;!&ndash;    <span th:if="${#fields.hasErrors('wish.comment')}" th:errors="*{wish.comment}"></span>&ndash;&gt;&ndash;&gt;-->
-
-<!--    <input type="hidden" name="wishListId" id="wishListId" th:value="${wishListId}">-->
-
-<!--    &lt;!&ndash;    <label for="wishlist_id">WishlistId</label>&ndash;&gt;-->
-<!--    &lt;!&ndash;    <input type="hidden" th:field="*{wishlist_id}" id="wishlist_id" value="${wishListId}">&ndash;&gt;-->
-
-<!--    <input type="submit" value="Add Wish">-->
-<!--</form>-->
-
-
-
-<!--    <c:forEach var="emp" items="${allEmps}">-->
-
-<!--        <c:url var="updateButton" value="/updateInfo">-->
-<!--            <c:param name="empId" value="${emp.id}"/>-->
-<!--        </c:url>-->
-
-<!--        <c:url var="deleteButton" value="/deleteEmployee">-->
-<!--            <c:param name="empId" value="${emp.id}"/>-->
-<!--        </c:url>-->
-
-<!--        <tr>-->
-<!--            <td>${emp.name}</td>-->
-<!--            <td>${emp.surname}</td>-->
-<!--            <td>${emp.department}</td>-->
-<!--            <td>${emp.salary}</td>-->
-<!--            <td>-->
-<!--                <input type="button" value="Update"-->
-<!--                       onClick="window.location.href = '${updateButton}'"/>-->
-<!--                <input type="button" value="Delete"-->
-<!--                       onClick="window.location.href = '${deleteButton}'"/>-->
-<!--            </td>-->
-<!--        </tr>-->
-
-<!--    </c:forEach>-->
-
-
-
-
-
-<!--<p>Thet is wishes <span th:text="${wishList.products}">products</span></p>-->
 </body>
 </html>
