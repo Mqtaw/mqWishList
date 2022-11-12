@@ -3,7 +3,7 @@ package com.mqtaw.mqwishlist.controllers;
 import com.mqtaw.mqwishlist.entity.User;
 import com.mqtaw.mqwishlist.entity.Wish;
 import com.mqtaw.mqwishlist.entity.WishList;
-import com.mqtaw.mqwishlist.service.UserService;
+import com.mqtaw.mqwishlist.service.UserServiceImpl;
 import com.mqtaw.mqwishlist.service.WishService;
 import com.mqtaw.mqwishlist.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class WishListController {
     private WishService wishService;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @PostMapping(value = {"/create"})
     public String createNewWishList(@ModelAttribute("userId") int userId, Model model) {
@@ -39,6 +39,12 @@ public class WishListController {
         model.addAttribute("wishList", wishList);
         model.addAttribute("userId", userId);
         return "add-wishList";
+    }
+
+    @PostMapping(value = {"/delete/{wishListId}"})
+    public String createNewWishList(@PathVariable int wishListId, @ModelAttribute("userId") int userId) {
+        wishListService.deleteById(wishListId);
+        return "redirect:/users/" + userId;
     }
 
     @PostMapping(value = {"/", ""})

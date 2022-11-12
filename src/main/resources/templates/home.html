@@ -1,7 +1,22 @@
-<html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
 <head><title>Home Page</title></head>
 <body>
-<h1>Hello !</h1>
-<p>Welcome to <span th:text="${appName}">Our App</span></p>
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+    <form th:action="@{/login}" method="get">
+        <input type="submit" value="Login"/>
+    </form>
+
+    <form th:action="@{/registration}" method="get">
+        <input type="submit" value="Registration"/>
+    </form>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+
+
+<!--<p>Welcome to <span th:text="${appName}">Our App</span></p>-->
 </body>
 </html>

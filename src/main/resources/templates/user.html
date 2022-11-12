@@ -21,6 +21,7 @@
             </td>
             <td>
                 <form th:action="@{/wish-list/delete/{id}(id=${wishList.id})}" method="post">
+                    <input type="hidden" name="userId" th:value="${user.id}">
                     <button type="submit">delete</button>
                 </form>
             </td>
