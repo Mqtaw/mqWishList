@@ -25,6 +25,7 @@
 
     <input type="hidden" name="wishListId" id="wishListId" th:value="${wishListId}">
     <input type="hidden" name="action" id="action" th:value="${action}">
+    <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
 
 <!--    <label for="wishlist_id">WishlistId</label>-->
 <!--    <input type="hidden" th:field="*{wishlist_id}" id="wishlist_id" value="${wishListId}">-->

@@ -24,7 +24,7 @@ public class WishList {
     @JoinColumn(name="owner_id", nullable = false)
     private User owner;
 
-    @OneToMany(mappedBy = "wishList", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "wishList", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Wish> wishes;
 
     public List<Wish> getWishes() {

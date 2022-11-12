@@ -3,14 +3,51 @@
 <body>
     <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 
-    <form th:action="@{/login}" method="get">
-        <input type="submit" value="Login"/>
-    </form>
+    <div sec:authorize="!isAuthenticated()">
+        <form th:action="@{/login}" method="get">
+            <input type="submit" value="Login"/>
+        </form>
 
-    <form th:action="@{/registration}" method="get">
-        <input type="submit" value="Registration"/>
-    </form>
+        <form th:action="@{/registration}" method="get">
+            <input type="submit" value="Registration"/>
+        </form>
+    </div>
+
     <div sec:authorize="isAuthenticated()">
+        <h3>Your wishlists:</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Choose</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="wishList: ${user.wishLists}">
+                <td th:text="${wishList.name}"></td>
+                <td>
+                    <form th:action="@{/wish-list/{id}(id=${wishList.id})}" method="get">
+                        <button type="submit">choose</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/wish-list/delete/{id}(id=${wishList.id})}" method="post">
+                        <input type="hidden" name="userId" th:value="${user.id}">
+                        <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
+                        <button type="submit">delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <form th:action="@{/wish-list/create}" method="post">
+            <input type="hidden" name="userId" id="userId" th:value="${user.id}">
+            <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
+            <button type="submit">Create wishlist</button>
+        </form>
+
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>

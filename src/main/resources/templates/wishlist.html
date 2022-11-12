@@ -1,7 +1,7 @@
-<html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
 <head><title>WishListInfo</title></head>
 <body>
-<h2>This is <span th:text="${wishList.name}"> whishList name</span>!</h2>
+<h2>This is <span th:text="${wishList.name}"> whishList name</span> wishlist:</h2>
 <table>
     <thead>
         <tr>
@@ -9,8 +9,12 @@
             <th>Comment</th>
             <th>Link</th>
             <th>Reserve</th>
-            <th>Edit</th>
-            <th>Delete</th>
+
+            <div th:if="${isOwner}">
+                <th>Edit</th>
+                <th>Delete</th>
+            </div>
+
         </tr>
     </thead>
     <tbody>
@@ -22,38 +26,51 @@
                 <form th:if="${!wish.isLocked}" th:action="@{/wish-list/wishes/reserve}" method="post">
                     <input type="hidden" name="wishId" th:value="${wish.id}">
                     <input type="hidden" name="wishListId" th:value="${wishList.id}">
+                    <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
                     <button type="submit">reserve</button>
                 </form>
                 <form th:if="${wish.isLocked}" th:action="@{/wish-list/wishes/cancel-reserve}" method="post">
                     <input type="hidden" name="wishId" th:value="${wish.id}">
                     <input type="hidden" name="wishListId" th:value="${wishList.id}">
+                    <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
                     <button type="submit">cancel</button>
                 </form>
             </td>
-            <td>
-                <form th:action="@{/wish-list/wishes/update}" method="post">
-                    <input type="hidden" name="wishId" th:value="${wish.id}">
-                    <input type="hidden" name="wishListId" th:value="${wishList.id}">
-                    <button type="submit">edit</button>
-                </form>
-            </td>
-            <td>
-                <form th:action="@{/wish-list/wishes/delete}" method="post">
-                    <input type="hidden" name="wishId" th:value="${wish.id}">
-                    <input type="hidden" name="wishListId" th:value="${wishList.id}">
-                    <button type="submit">delete</button>
-                </form>
-            </td>
+
+            <div th:if="${isOwner}">
+                <td>
+                    <form th:action="@{/wish-list/wishes/update}" method="post">
+                        <input type="hidden" name="wishId" th:value="${wish.id}">
+                        <input type="hidden" name="wishListId" th:value="${wishList.id}">
+                        <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
+                        <button type="submit">edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/wish-list/wishes/delete}" method="post">
+                        <input type="hidden" name="wishId" th:value="${wish.id}">
+                        <input type="hidden" name="wishListId" th:value="${wishList.id}">
+                        <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
+                        <button type="submit">delete</button>
+                    </form>
+                </td>
+            </div>
+
             <br>
         </tr>
     </tbody>
 </table>
 <br>
-<form th:action="@{/wish-list/wishes/create}" method="post">
-    <input type="hidden" name="wishListId" id="wishListId" th:value="${wishList.id}">
-    <button type="submit">add wish</button>
-</form>
-
+<div th:if="${isOwner}">
+    <form th:action="@{/wish-list/wishes/create}" method="post">
+        <input type="hidden" name="wishListId" id="wishListId" th:value="${wishList.id}">
+        <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
+        <button type="submit">add wish</button>
+    </form>
+    <form th:action="@{/}" method="get">
+        <button type="submit">Go home</button>
+    </form>
+</div>
 <br>
 </body>
 </html>

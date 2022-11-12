@@ -32,6 +32,7 @@ public class WishServiceImpl implements WishService {
 
     @Override
     public void deleteById(int id) {
+        System.out.println("delete wish" + id);
         wishRepository.deleteById(id);
     }
 }

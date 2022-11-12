@@ -27,9 +27,10 @@ import org.springframework.web.bind.annotation.PostMapping;
         private UserService userService;
 
         @GetMapping("/")
-        public String homePage(Authentication authentication) {
+        public String homePage(Authentication authentication, Model model) {
             if (!(authentication == null)) {
-                System.out.println(authentication.getName());
+                User user = userService.findUserByUsername(authentication.getName());
+                model.addAttribute("user", user);
             }
             return "home";
         }

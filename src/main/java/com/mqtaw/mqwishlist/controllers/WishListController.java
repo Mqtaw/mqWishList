@@ -8,6 +8,7 @@ import com.mqtaw.mqwishlist.service.WishService;
 import com.mqtaw.mqwishlist.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,35 +33,29 @@ public class WishListController {
     private UserServiceImpl userService;
 
     @PostMapping(value = {"/create"})
-    public String createNewWishList(@ModelAttribute("userId") int userId, Model model) {
+    public String createNewWishList(Authentication authentication, @ModelAttribute("userId") int userId, Model model) {
         WishList wishList = new WishList();
-//        User user = userService.findUserById(userId);
-//        wishList.setOwner(user);
         model.addAttribute("wishList", wishList);
         model.addAttribute("userId", userId);
         return "add-wishList";
     }
 
     @PostMapping(value = {"/delete/{wishListId}"})
-    public String createNewWishList(@PathVariable int wishListId, @ModelAttribute("userId") int userId) {
+    public String deleteWishList(Authentication authentication, @ModelAttribute("userId") int userId, @PathVariable int wishListId) {
         wishListService.deleteById(wishListId);
-        return "redirect:/users/" + userId;
+        return "redirect:/";
     }
 
     @PostMapping(value = {"/", ""})
-    public String saveNewWishList(@ModelAttribute("userId") int userId, @Valid WishList wishList, BindingResult result, Model model) {
-        System.out.println(1);
-        System.out.println(wishList);
+    public String saveNewWishList(Authentication authentication, @ModelAttribute("userId") int userId, @Valid WishList wishList, BindingResult result, Model model) {
         if (result.hasErrors()) {
             System.out.println(result);
             return "add-wishList";
         }
-        System.out.println(1);
         User user = userService.findUserById(userId);
         wishList.setOwner(user);
         wishListService.save(wishList);
-        System.out.println(1);
-        return "redirect:/users/" + wishList.getOwner().getId();
+        return "redirect:/";
     }
 
     @PostMapping("/wishes")
@@ -120,14 +115,24 @@ public class WishListController {
     @PostMapping("/wishes/delete")
     public String deleteWish(@ModelAttribute("wishId") int wishId,
                              @ModelAttribute("wishListId") int wishListId) {
+        System.out.println(wishId);
         wishService.deleteById(wishId);
+        System.out.println(wishId);
         return "redirect:/wish-list/" + wishListId;
     }
 
 
     @GetMapping("/{wishlistId}")
-    public String wishListPage(@PathVariable int wishlistId, Model model) {
+    public String wishListPage(@PathVariable int wishlistId, Authentication authentication, Model model) {
+        boolean isOwner = false;
         WishList wishList = wishListService.findWishListById(wishlistId);
+        if (!(authentication == null)) {
+            User user = userService.findUserByUsername(authentication.getName());
+            if (user.getWishLists().contains(wishList)) {
+                model.addAttribute("isOwner", true);
+            }
+            model.addAttribute("user", user);
+        }
         model.addAttribute("wishList", wishList);
         return "wishlist";
     }
