@@ -1,8 +1,22 @@
-<html xmlns:sec="http://www.w3.org/1999/xhtml">
-<head><title>WishListInfo</title></head>
+<!DOCTYPE html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Wishlist</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
 <body>
+
+<header>
+    <form th:action="@{/}" method="get">
+        <button type="submit">Home</button>
+    </form>
+</header>
+
+<section>
 <h2>This is <span th:text="${wishList.name}"> whishList name</span> wishlist:</h2>
-<table>
+
+<table class="left_in_block">
     <thead>
         <tr>
             <th>Name</th>
@@ -55,22 +69,18 @@
                     </form>
                 </td>
             </div>
-
-            <br>
         </tr>
     </tbody>
 </table>
-<br>
+
 <div th:if="${isOwner}">
     <form th:action="@{/wish-list/wishes/create}" method="post">
         <input type="hidden" name="wishListId" id="wishListId" th:value="${wishList.id}">
         <input type="hidden" name = "_csrf" th:value="${_csrf.token}">
         <button type="submit">add wish</button>
     </form>
-    <form th:action="@{/}" method="get">
-        <button type="submit">Go home</button>
-    </form>
 </div>
 <br>
+</section>
 </body>
 </html>
