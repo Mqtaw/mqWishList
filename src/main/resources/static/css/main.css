@@ -8,6 +8,15 @@ section {
     margin-right:auto;
 }
 
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+
 article {
     text-align: left;
     display: inline-block;
@@ -21,7 +30,22 @@ article {
 }
 
 table, th, td {
-    width: 70%;
+    width: 80%;
     border: 1px solid black;
     border-collapse: collapse;
+    border-spacing: 4px;
+    font-size: 24px;
+    overflow: auto;
+}
+
+label {
+    font-size: 20px;
+}
+
+button {
+    font-size: 20px;
+}
+
+input {
+    font-size: 20px;
 }
