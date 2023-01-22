@@ -1,0 +1,7 @@
+url=
+username=
+password=
+driver=org.postgresql.Driver
+changeLogFile=/db/changelog/db.changelog-master.yml
+referenceUrl=hibernate:spring:com.mqtaw.mqwishlist.entity?dialect=org.hibernate.dialect.PostgreSQLDialect
+diffChangeLogFile=src/main/resources/db/changelog/include/db.changelog-00n.yml
